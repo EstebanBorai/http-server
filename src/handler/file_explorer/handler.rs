@@ -20,12 +20,12 @@ pub fn file_explorer(request: Request, file_explorer: &FileExplorer) -> (Request
                     .to_string();
                 let mime_type = AsciiString::from_ascii(mime_type.as_bytes()).unwrap();
                 let file = File::open(entry.path).unwrap();
-                let response = Response::from_file(file).with_header(tiny_http::Header {
+
+                return (request, Response::from_file(file).with_header(tiny_http::Header {
                     field: "Content-Type".parse().unwrap(),
                     value: mime_type,
-                });
-
-                return (request, response.boxed());
+                    }).boxed()
+                );
             } else {
                 let dirpath = entry.path.clone();
                 let dirpath = dirpath.to_str().unwrap();
