@@ -21,11 +21,15 @@ pub fn file_explorer(request: Request, file_explorer: &FileExplorer) -> (Request
                 let mime_type = AsciiString::from_ascii(mime_type.as_bytes()).unwrap();
                 let file = File::open(entry.path).unwrap();
 
-                return (request, Response::from_file(file).with_header(tiny_http::Header {
-                    field: "Content-Type".parse().unwrap(),
-                    value: mime_type,
-                    }).boxed()
-                );
+                (
+                    request,
+                    Response::from_file(file)
+                        .with_header(tiny_http::Header {
+                            field: "Content-Type".parse().unwrap(),
+                            value: mime_type,
+                        })
+                        .boxed(),
+                )
             } else {
                 let dirpath = entry.path.clone();
                 let dirpath = dirpath.to_str().unwrap();
@@ -41,20 +45,20 @@ pub fn file_explorer(request: Request, file_explorer: &FileExplorer) -> (Request
                 );
                 let mime_type_value: AsciiString = AsciiString::from_ascii("text/html").unwrap();
                 let response = Response::from_string(html)
-                .with_status_code(200)
-                .with_header(tiny_http::Header {
-                    field: "Content-Type".parse().unwrap(),
-                    value: mime_type_value,
-                });
+                    .with_status_code(200)
+                    .with_header(tiny_http::Header {
+                        field: "Content-Type".parse().unwrap(),
+                        value: mime_type_value,
+                    });
 
-                return (request, response.boxed());
+                (request, response.boxed())
             }
         }
-        Err(_) => {
-            let response = Response::from_string("Not Found")
-                .with_status_code(404);
-
-            return (request, response.boxed());
-        }
+        Err(_) => (
+            request,
+            Response::from_string("Not Found")
+                .with_status_code(404)
+                .boxed(),
+        ),
     }
 }
