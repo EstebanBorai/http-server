@@ -7,10 +7,11 @@ use tiny_http::{Request, Response, ResponseBox};
 pub fn main_handler(req: Request, fexplorer: &FileExplorer) -> (Request, ResponseBox) {
     match req.method().to_string().to_lowercase().as_str() {
         "get" => file_explorer(req, fexplorer),
-        _ => {
-            let response = Response::from_string("Method Not Allowed").with_status_code(405);
-
-            (req, response.boxed())
-        }
+        _ => (
+            req,
+            Response::from_string("Method Not Allowed")
+                .with_status_code(405)
+                .boxed(),
+        ),
     }
 }
