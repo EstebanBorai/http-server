@@ -15,4 +15,5 @@ categories = ["web-programming", "web-programming::http-server"]
 ascii = "0.8"
 clap = "2.33.3"
 mime_guess = "2.0"
-tiny_http = "0.6"
+# tiny_http = "0.6"
+tiny_http = { path = "../tiny-http-tiny-http" }

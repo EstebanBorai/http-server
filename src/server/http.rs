@@ -43,6 +43,7 @@ impl HttpServer {
 
         for request in self.server.incoming_requests() {
             let (req, res) = main_handler(request, &self.file_explorer);
+            println!("{}\t{}\t{}\t{}", req.method(), req.url(), res.get_status_code().0, res.get_data_length().unwrap_or(0));
             req.respond(res).unwrap();
         }
     }
