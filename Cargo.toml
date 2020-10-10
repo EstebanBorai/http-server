@@ -16,3 +16,4 @@ ascii = "0.8"
 clap = "2.33.3"
 mime_guess = "2.0"
 tiny_http = "0.6"
+typed-html = { git = "https://github.com/bodil/typed-html", rev = "4c13ecca" }

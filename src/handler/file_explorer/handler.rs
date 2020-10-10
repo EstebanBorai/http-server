@@ -1,5 +1,5 @@
 use crate::file_explorer::FileExplorer;
-use crate::handler::build_html;
+use crate::handler::make_document;
 use ascii::AsciiString;
 use std::fs::{read_dir, File};
 use tiny_http::{Request, Response, ResponseBox};
@@ -36,8 +36,7 @@ pub fn file_explorer(request: Request, file_explorer: &FileExplorer) -> (Request
                 let dirname = &dirpath[file_explorer.root_dir_string.len()..];
 
                 let entries = read_dir(entry.path).unwrap();
-
-                let html = build_html(
+                let html = make_document(
                     dirname,
                     &file_explorer.root_dir_string,
                     &file_explorer,

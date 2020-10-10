@@ -1,3 +1,4 @@
+#![recursion_limit="512"]
 //! <div>
 //!   <div align="center" style="display: block; text-align: center;">
 //!     <img src="https://raw.githubusercontent.com/EstebanBorai/http-server/main/docs/http-logo.png" height="120" width="200" />
