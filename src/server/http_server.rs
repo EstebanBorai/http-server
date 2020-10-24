@@ -2,7 +2,7 @@ use crate::config::Config;
 use crate::file_explorer::FileExplorer;
 use std::convert::Infallible;
 use std::net::SocketAddr;
-use hyper::{Body, Request, Response, Server};
+use hyper::{Body, Request, Response, Server, StatusCode, Method};
 use hyper::server::Builder;
 use hyper::server::conn::AddrIncoming;
 use hyper::service::{make_service_fn, service_fn};
@@ -37,12 +37,28 @@ impl HttpServer {
 
     let server = self.server.serve(main_service);
 
+    if self.must_log {
+      println!("Listening on: http://{}", self.address.to_string());
+    }
+
     if let Err(e) = server.await {
       eprintln!("Failed to initialize server: {}", e);
     }
   }
 
-  async fn handle_requests(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    Ok(Response::new("Hello, World".into()))
+  async fn handle_requests(req: Request<Body>) -> Result<Response<Body>, Infallible> {
+    let uri = req.uri();
+    let method = req.method();
+
+    match *method {
+      Method::GET => Ok(Response::new("Hello, World".into())),
+      _ => {
+        let mut response = Response::new("Method Not Allowed".into());
+
+        *response.status_mut() = StatusCode::METHOD_NOT_ALLOWED;
+
+        Ok(response)
+      }
+    }
   }
 }
