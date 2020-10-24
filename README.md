@@ -56,6 +56,7 @@ Name | Short | Long | Description
 --- | --- | --- | ---
 Help | `h` | `help` | Prints help information
 Version | `V` | `version` | Prints version information
+Silent | `s` | `silent` | Disable all outputs
 
 ### Options
 
